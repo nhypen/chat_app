@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Chat App</title>
+
+    <style>
+        body {
+            background-color: #0f0f0f;
+            font-family: Arial;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 350px;
+            height: 600px;
+            background-color: #1c1c1c;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .msg {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 12px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .left {
+            background-color: #333;
+        }
+
+        .right {
+            background-color: #4CAF50;
+            margin-left: auto;
+        }
+
+        .input-area {
+            display: flex;
+            border-top: 1px solid #333;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background-color: #222;
+            color: white;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="chat" id="chat">
+
+        <div class="msg left">Hello! How are you?</div>
+        <div class="msg right">I'm good, thanks!</div>
+
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+</div>
+
+<script>
+function sendMessage() {
+    let input = document.getElementById("input");
+    let text = input.value;
+
+    if (text === "") return;
+
+    let chat = document.getElementById("chat");
+
+    let msg = document.createElement("div");
+    msg.classList.add("msg", "right");
+    msg.innerText = text;
+    chat.appendChild(msg);
+
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
+
+    setTimeout(() => {
+        let reply = document.createElement("div");
+        reply.classList.add("msg", "left");
+
+        if (text.toLowerCase().includes("hello") || text.toLowerCase().includes("hi")) {
+            reply.innerText = "Hello!";
+        } else if (text.toLowerCase().includes("how are you")) {
+            reply.innerText = "I'm doing well!";
+        } else {
+            reply.innerText = "I don't understand";
+        }
+
+        chat.appendChild(reply);
+        chat.scrollTop = chat.scrollHeight;
+
+    }, 500);
+}
+
+document.getElementById("input").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+
+</script>
+
+</body>
+</html>
